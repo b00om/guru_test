@@ -23,11 +23,11 @@ final class PostValidator
     private const string SELF_CLOSING_TAG_PATTERN = '/\/\s*$/';
     private const string ENTITY_PATTERN = '&(?:amp|lt|gt|quot|apos|#[0-9]+|#x[0-9a-fA-F]+);';
     private const string INVALID_ENTITY_PATTERN = '/&(?!amp;|lt;|gt;|quot;|apos;|#[0-9]+;|#x[0-9a-fA-F]+;)/';
-    private const string ATTRIBUTE_PATTERN = '/^([a-z]+)\s*=\s*('
+    private const string ATTRIBUTE_PATTERN = '/^\s+([a-z]+)\s*=\s*('
     . '"(?:[^<&"]|' . self::ENTITY_PATTERN . ')*"'
     . '|'
     . "'(?:[^<&']|" . self::ENTITY_PATTERN . ")*'"
-    . ')\s*/';
+    . ')/';
 
     public function validate(string $post): bool
     {
@@ -162,10 +162,9 @@ final class PostValidator
 
     private static function isValidLinkAttributes(string $attributes): bool
     {
-        $attributes = ltrim($attributes);
         $foundAttributes = [];
 
-        while ($attributes !== '') {
+        while (trim($attributes) !== '') {
             if (!preg_match(self::ATTRIBUTE_PATTERN, $attributes, $matches)) {
                 return false;
             }
