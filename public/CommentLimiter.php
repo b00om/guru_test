@@ -6,7 +6,7 @@ class CommentLimiter
     private const int PERIOD = 10;
 
     /**
-     * @var array<int, array<int>>
+     * @var array<int, list<int>>
      */
     private array $commentLogs = [];
 
