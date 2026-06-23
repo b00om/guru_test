@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+function validatePost(mixed $post): bool
+{
+    if (!is_string($post)) {
+        return false;
+    }
+
+    return new PostValidator()->validate($post);
+}
+
 final class PostValidator
 {
     private const string LINK_TAG = 'a';
@@ -20,16 +29,7 @@ final class PostValidator
     . "'(?:[^<&']|" . self::ENTITY_PATTERN . ")*'"
     . ')\s*/';
 
-    function validatePost($post): bool
-    {
-        if (!is_string($post)) {
-            return false;
-        }
-
-        return PostValidator::validate($post);
-    }
-
-    public static function validate(string $post): bool
+    public function validate(string $post): bool
     {
         if (preg_match(self::UTF8_PATTERN, $post) !== 1) {
             return false;
